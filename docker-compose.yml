@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  daikatana:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      # Allow SSH access
+      - "8022:22"
+      # Forward the tunneled port
+      - "8234:8234"
+      # Just to check if Daikatana is running
+      - "8238:80"
+    container_name: daikatana
