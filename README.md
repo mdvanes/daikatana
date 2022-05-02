@@ -79,16 +79,18 @@ Note that webservers run with webpack-dev-server need the `--host 0.0.0.0` flag 
 
 ## Starting Daikatana
 
+NOTE: this assumes the service to be tunneled runs on port 8234. If it runs on another port, e.g. 8001, replace 8234 by 8001 in ALL places, so both docker-compose and the ssh command in BOTH the incoming and outgoing position.
+
 On Linux Server:
 
 - Compose: `docker-compose up -d --build` or Build: `docker build -t daikatana .` and Run: `docker run --rm --name daikatana -p 8022:22 -p 8234:80 daikatana`
-- Connect to bash: docker exec -it daikatana /bin/bash
+- Connect to bash: `docker exec -it daikatana /bin/bash`
 - Start SSHd: `/etc/init.d/ssh status` and `/etc/init.d/ssh start`
 
 On Mac:
 
-- Terminal 1: webserver on port 8234: `docker run --rm --name some-nginx -p 8234:80 nginx` (Note that webservers run with webpack-dev-server need the `--host 0.0.0.0` flag to be accessible.)
-- Terminal 2: SSH Tunnel: `ssh -R 8234:localhost:8234 root@192.168.0.3 -p 8022` (Note that webservers run with webpack-dev-server would need `ssh -R 0.0.0.0:8234:localhost:8234 etc...`)
+- Terminal 1: webserver on port 8234: `docker run --rm --name some-nginx -p 8234:80 nginx` (Note that webservers run with webpack-dev-server may need the `--host 0.0.0.0` flag to be accessible)
+- Terminal 2: SSH Tunnel: `ssh -R 8234:localhost:8234 root@192.168.0.3 -p 8022` (Note that webservers run with webpack-dev-server should *not* need to prefix 0.0.0.0 here, but you can try replacing with `ssh -R 0.0.0.0:8234...`)
 - Browse to http://192.168.0.3:8234
 
 ## In progress
